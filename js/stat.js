@@ -18,6 +18,7 @@ var cloudShadow = {
 
 var drawCloud = function (ctx, object, stroke) {
   var offset = 10;
+
   ctx.fillStyle = object.color;
   ctx.beginPath();
   ctx.moveTo(object.x, object.y);
@@ -37,4 +38,9 @@ var drawCloud = function (ctx, object, stroke) {
 var renderStatistics = function (ctx) {
   drawCloud(ctx, cloudShadow, false);
   drawCloud(ctx, cloud, true);
+
+  ctx.fillStyle = '#000';
+  ctx.font = '16px PT Mono';
+  ctx.fillText('Ура, вы победили!', 245, 30);
+  ctx.fillText('Список результатов:', 235, 45);
 };
