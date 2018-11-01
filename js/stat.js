@@ -77,12 +77,12 @@ var renderStatistics = function (ctx, names, times) {
   var renderBars = function () {
     var fontGap = 40;
     var statsGap = 10;
+    var getRandomBlue = function () {
+      return 'hsl(240, ' + Math.floor(Math.random() * 100) + '%' + ', 50%)';
+    };
 
     for (var i = 0; i < names.length; i++) {
       var barSize = Math.round((times[i] * bar.height) / bestTime);
-      var getRandomBlue = function () {
-        return 'hsl(240, ' + Math.floor(Math.random() * 100) + '%' + ', 50%)';
-      };
 
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
       if (i > 0) {
