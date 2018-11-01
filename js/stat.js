@@ -17,29 +17,20 @@ var cloudShadow = {
 };
 
 var bar = {
+  y: 230,
   height: 150,
   width: 40,
   gap: 50,
 };
 
-var getRandomBlue = function () {
-  return 'hsl(240, ' + Math.floor(Math.random() * 100) + '%' + ', 50%)';
-};
-
-var FONT_GAP = 20;
-var UPPER_GAP = 20;
-var playerColor = 'rgba(255, 0, 0, 1)';
-
 var drawCloud = function (ctx, object, stroke) {
-  var offset = 10;
-
   ctx.fillStyle = object.color;
   ctx.beginPath();
   ctx.moveTo(object.x, object.y);
-  ctx.lineTo(object.x + offset, object.y + (object.height / 2));
+  ctx.lineTo(object.x, object.y + (object.height / 2));
   ctx.lineTo(object.x, object.y + object.height);
   ctx.lineTo(object.x + object.width, object.y + object.height);
-  ctx.lineTo(object.x + object.width - offset, object.y + (object.height / 2));
+  ctx.lineTo(object.x + object.width, object.y + (object.height / 2));
   ctx.lineTo(object.x + object.width, object.y);
   ctx.lineTo(object.x, object.y);
   ctx.fill();
@@ -83,49 +74,33 @@ var renderStatistics = function (ctx, names, times) {
 
   var bestTime = getBestTime();
 
-  var renderPlayerBar = function () {
-    var barSize = Math.round((times[0] * bar.height) / bestTime);
+  var renderBars = function () {
+    var fontGap = 40;
+    var statsGap = 10;
 
-    ctx.fillStyle = playerColor;
-    ctx.beginPath();
-    ctx.moveTo(cloud.x + bar.gap, 230);
-    ctx.lineTo((cloud.x + bar.gap) + bar.width, 230);
-    ctx.lineTo((cloud.x + bar.gap) + bar.width, 230 - barSize);
-    ctx.lineTo(cloud.x + bar.gap, 230 - barSize);
-    ctx.lineTo(cloud.x + bar.gap, 230);
-    ctx.fill();
-    ctx.closePath();
-    ctx.fillStyle = '#000';
-    ctx.fillText(names[0], cloud.x + bar.gap, cloud.y + bar.gap + bar.height + UPPER_GAP + FONT_GAP);
-    ctx.fillText(Math.round(times[0]), cloud.x + bar.gap, 230 - barSize - 10);
-  };
-
-  var renderOtherPlayers = function () {
-    for (var i = 1; i < names.length; i++) {
+    for (var i = 0; i < names.length; i++) {
       var barSize = Math.round((times[i] * bar.height) / bestTime);
+      var getRandomBlue = function () {
+        return 'hsl(240, ' + Math.floor(Math.random() * 100) + '%' + ', 50%)';
+      };
 
-      ctx.fillStyle = getRandomBlue();
+      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+      if (i > 0) {
+        ctx.fillStyle = getRandomBlue();
+      }
       ctx.beginPath();
-      ctx.moveTo(cloud.x + bar.gap + (bar.gap + bar.width) * i, 230);
-      ctx.lineTo((cloud.x + bar.gap) + bar.width + (bar.gap + bar.width) * i, 230);
-      ctx.lineTo((cloud.x + bar.gap) + bar.width + (bar.gap + bar.width) * i, 230 - barSize);
-      ctx.lineTo(cloud.x + bar.gap + (bar.gap + bar.width) * i, 230 - barSize);
-      ctx.lineTo(cloud.x + bar.gap + (bar.gap + bar.width) * i, 230);
+      ctx.moveTo(cloud.x + bar.gap + (bar.gap + bar.width) * i, bar.y);
+      ctx.lineTo((cloud.x + bar.gap) + bar.width + (bar.gap + bar.width) * i, bar.y);
+      ctx.lineTo((cloud.x + bar.gap) + bar.width + (bar.gap + bar.width) * i, bar.y - barSize);
+      ctx.lineTo(cloud.x + bar.gap + (bar.gap + bar.width) * i, bar.y - barSize);
+      ctx.lineTo(cloud.x + bar.gap + (bar.gap + bar.width) * i, bar.y);
       ctx.fill();
       ctx.closePath();
       ctx.fillStyle = '#000';
-      ctx.fillText(names[i], cloud.x + bar.gap + (bar.gap + bar.width) * i, cloud.y + bar.gap + bar.height + UPPER_GAP + FONT_GAP);
-      ctx.fillText(Math.round(times[i]), cloud.x + bar.gap + (bar.gap + bar.width) * i, 230 - barSize - 10);
+      ctx.fillText(names[i], cloud.x + bar.gap + (bar.gap + bar.width) * i, cloud.y + bar.gap + bar.height + fontGap);
+      ctx.fillText(Math.round(times[i]), cloud.x + bar.gap + (bar.gap + bar.width) * i, bar.y - barSize - statsGap);
     }
-  }
+  };
 
-  renderPlayerBar();
-  renderOtherPlayers();
-
-  // for (var i = 0; i < names.length; i++) {
-  //   ctx.fillStyle = getRandomBlue();
-  //   ctx.fillRect(cloud.x + bar.gap + (bar.gap + bar.width) * i, cloud.y + bar.gap + UPPER_GAP, bar.width, bar.height);
-  //   ctx.fillStyle = '#000';
-  //   ctx.fillText(names[i], cloud.x + bar.gap + (bar.gap + bar.width) * i, cloud.y + bar.gap + bar.height + UPPER_GAP + FONT_GAP);
-  // }
+  renderBars();
 };
