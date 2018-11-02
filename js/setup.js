@@ -13,28 +13,19 @@ var getRandomElement = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-var wizards = [
-  {
+var getWizardObject = function () {
+  return {
     name: getRandomElement(names) + ' ' + getRandomElement(secondNames),
     coatColor: getRandomElement(coatColors),
     eyesColor: getRandomElement(eyesColors)
-  },
-  {
-    name: getRandomElement(names) + ' ' + getRandomElement(secondNames),
-    coatColor: getRandomElement(coatColors),
-    eyesColor: getRandomElement(eyesColors)
-  },
-  {
-    name: getRandomElement(names) + ' ' + getRandomElement(secondNames),
-    coatColor: getRandomElement(coatColors),
-    eyesColor: getRandomElement(eyesColors)
-  },
-  {
-    name: getRandomElement(names) + ' ' + getRandomElement(secondNames),
-    coatColor: getRandomElement(coatColors),
-    eyesColor: getRandomElement(eyesColors)
-  }
-];
+  };
+};
+
+var wizards = [];
+
+for (var i = 0; i < 4; i++) {
+  wizards.push(getWizardObject());
+}
 
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
