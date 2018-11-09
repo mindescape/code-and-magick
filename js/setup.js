@@ -1,5 +1,52 @@
 'use strict';
 
+var ENTER_KEY = 13;
+var ESC_KEY = 27;
+
+var setup = document.querySelector('.setup');
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = document.querySelector('.setup-close');
+var setupNameInput = setup.querySelector('.setup-user-name');
+
+var openPopup = function () {
+  setup.classList.remove('hidden');
+};
+
+var closePopup = function () {
+  setup.classList.add('hidden');
+};
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEY) {
+    if (document.activeElement !== setupNameInput) {
+      closePopup();
+    }
+  }
+};
+
+setupOpen.addEventListener('click', function () {
+  openPopup();
+  document.addEventListener('keydown', onPopupEscPress);
+});
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEY) {
+    openPopup();
+  }
+  document.addEventListener('keydown', onPopupEscPress);
+});
+
+setupClose.addEventListener('click', function () {
+  closePopup();
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEY) {
+    closePopup();
+  }
+  document.removeEventListener('keydown', onPopupEscPress);
+});
+
 var NAMES = ['Иван', 'Хуан', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var LASTNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
@@ -41,17 +88,11 @@ var renderSimilarWizards = function (wizards) {
   similarListDOM.appendChild(wizardsElements);
 };
 
-var showSetupDOM = function () {
-  var setup = document.querySelector('.setup');
-  setup.classList.remove('hidden');
-};
-
 var showSetupSimilarDOM = function () {
   var setupSimilar = document.querySelector('.setup-similar');
   setupSimilar.classList.remove('hidden');
 };
 
-showSetupDOM();
 var wizardsData = generateWizardsData();
 renderSimilarWizards(wizardsData);
 showSetupSimilarDOM();
