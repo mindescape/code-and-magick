@@ -1,13 +1,32 @@
 'use strict';
 
+// Keys variables for event handlers
 var ENTER_KEY = 13;
 var ESC_KEY = 27;
 
+// Mock data
+var NAMES = ['Иван', 'Хуан', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
+var LASTNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
+var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+var WIZARDS_COUNT = 4;
+
+var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = document.querySelector('.setup-close');
 var setupNameInput = setup.querySelector('.setup-user-name');
+var setupWizard = document.querySelector('.setup-wizard');
+var setupWizardCoat = setupWizard.querySelector('.wizard-coat');
+var WizardCoatInput = document.querySelector('#coat-color');
+var setupWizardEyes = setupWizard.querySelector('.wizard-eyes');
+var WizardEyesInput = document.querySelector('#eyes-color');
+var setupWizardFireball = document.querySelector('.setup-fireball-wrap');
+var WizardFireballInput = document.querySelector('#fireball-color');
 
+
+// Event handlers for popup
 var openPopup = function () {
   setup.classList.remove('hidden');
 };
@@ -47,14 +66,8 @@ setupClose.addEventListener('keydown', function (evt) {
   document.removeEventListener('keydown', onPopupEscPress);
 });
 
-var NAMES = ['Иван', 'Хуан', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-var LASTNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-var WIZARDS_COUNT = 4;
 
-var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-
+// Similar wizards in setup block
 var getRandomElement = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
@@ -96,3 +109,35 @@ var showSetupSimilarDOM = function () {
 var wizardsData = generateWizardsData();
 renderSimilarWizards(wizardsData);
 showSetupSimilarDOM();
+
+
+// Event handles for changing wizard's appearance
+var changeCoatColor = function () {
+  var randomElement = getRandomElement(COAT_COLORS);
+  WizardCoatInput.value = randomElement;
+  setupWizardCoat.style.fill = randomElement;
+};
+
+var changeEyesColor = function () {
+  var randomElement = getRandomElement(EYES_COLORS);
+  WizardEyesInput.value = randomElement;
+  setupWizardEyes.style.fill = randomElement;
+};
+
+var changeFireballColor = function () {
+  var randomElement = getRandomElement(FIREBALL_COLORS);
+  WizardFireballInput.value = randomElement;
+  setupWizardFireball.style.backgroundColor = randomElement;
+};
+
+setupWizardCoat.addEventListener('click', function () {
+  changeCoatColor();
+});
+
+setupWizardEyes.addEventListener('click', function () {
+  changeEyesColor();
+});
+
+setupWizardFireball.addEventListener('click', function () {
+  changeFireballColor();
+});
