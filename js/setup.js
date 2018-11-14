@@ -27,14 +27,6 @@ var WizardFireballInput = document.querySelector('#fireball-color');
 
 
 // Event handlers for popup
-var openPopup = function () {
-  setup.classList.remove('hidden');
-};
-
-var closePopup = function () {
-  setup.classList.add('hidden');
-};
-
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEY) {
     if (document.activeElement !== setupNameInput) {
@@ -43,9 +35,18 @@ var onPopupEscPress = function (evt) {
   }
 };
 
+var openPopup = function () {
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
 setupOpen.addEventListener('click', function () {
   openPopup();
-  document.addEventListener('keydown', onPopupEscPress);
 });
 
 setupOpen.addEventListener('keydown', function (evt) {
@@ -63,7 +64,6 @@ setupClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEY) {
     closePopup();
   }
-  document.removeEventListener('keydown', onPopupEscPress);
 });
 
 
