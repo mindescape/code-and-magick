@@ -1,12 +1,28 @@
 'use strict';
 
-// Popup event handlers
+// Popup
 (function () {
   var setup = document.querySelector('.setup');
   var setupOpenButton = document.querySelector('.setup-open');
   var setupCloseButton = document.querySelector('.setup-close');
   var setupNameInput = setup.querySelector('.setup-user-name');
+  var form = document.querySelector('.setup-wizard-form');
 
+
+  // Submit form
+  var onSuccess = function () {
+    closePopup();
+  };
+
+  var onError = window.util.onError;
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.save(new FormData(form), onSuccess, onError);
+  });
+
+
+  // Popup handlers
   var onEscPress = function (evt) {
     if (document.activeElement !== setupNameInput) {
       window.util.isEventEsc(evt, closePopup);
@@ -41,6 +57,7 @@
     window.util.isEventEnter(evt, closePopup);
   });
 })();
+
 
 // Drag popup
 (function () {
@@ -124,17 +141,7 @@
     showSetupSimilarDOM();
   };
 
-  var onError = function (message) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = message;
-    document.body.insertAdjacentElement('afterbegin', node);
-  };
+  var onError = window.util.onError;
 
   window.load(onSuccess, onError);
 })();
